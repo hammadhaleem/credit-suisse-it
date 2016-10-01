@@ -15,7 +15,7 @@ def trader_moving_avg(exchanges, symbol, layer):
         '''.format(symbol_traded=symbol)
 
     df = df_from_sql(query)
-    df['exchange']= df.exchange.apply(lambda x: int(x))
+    df['exchange'] = df.exchange.apply(lambda x: int(x))
     team_information = layer.get_team_data()
 
     mean_bid = df[df.exchange == 1].bid.mean()
@@ -55,7 +55,8 @@ def trader_moving_avg(exchanges, symbol, layer):
                 'type': 'buy',
                 'symbol': to_int_symbol(symbol),
                 'qty': int(owned) / 2,
-                'market': True
+                'market': True,
+                'price' : final_bid
             })
 
         # print((team_information[u'cash']), final_ask,team_information)
@@ -66,15 +67,16 @@ def trader_moving_avg(exchanges, symbol, layer):
                 'type': 'sell',
                 'symbol': to_int_symbol(symbol),
                 'qty': owned,
-                'market': True
+                'market': True,
+                'price': final_ask
             })
 
-        if len(trades) > 0 :
+        if len(trades) > 0:
             stri = ""
             try:
                 trade_list = []
                 for trade in trades:
-                    if not trade['market']:
+                    if trade['market'] is False:
                         td = layer.buy_sell_limit(
                             exchange_id=trade['exchange_id'],
                             type=trade['type'],
@@ -91,17 +93,24 @@ def trader_moving_avg(exchanges, symbol, layer):
                             qty=trade['qty']
                         )
 
+                    try:
+                        json = str(td['status'])
+                    except:
+                        json = None
+
                     stri = stri + "   " + '''[Trade-Avg-moving] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price}'''.format(
                         exchange_id=trade['exchange_id'],
                         type=trade['type'],
                         symbol=trade['symbol'],
                         qty=trade['qty'],
-                        price=trade['price']
+                        price=trade['price'],
+                        json=json
                     )
 
                     trade['json'] = str(td)
                     trade['time'] = datetime.datetime.now()
                     trade_list.append(trade)
+                    sleep(0.5)
 
                 df_to_sql(pd.DataFrame(trade_list), 'ledger')
                 print(" ", stri)
@@ -173,12 +182,18 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                         qty=trade['qty']
                     )
 
-                stri = stri + "   " + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price}'''.format(
+                try:
+                    json = str(td['status'])
+                except:
+                    json = None
+
+                stri = stri + "   " + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price} {json}'''.format(
                     exchange_id=trade['exchange_id'],
                     type=trade['type'],
                     symbol=trade['symbol'],
                     qty=trade['qty'],
-                    price=trade['price']
+                    price=trade['price'],
+                    json=json
                 )
 
                 trade['json'] = str(td)
