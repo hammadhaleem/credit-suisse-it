@@ -1,4 +1,7 @@
-from exchange_layer import Exchange_layer
+from exchange_layer import Exchange_layer, get_market_data_running
+from algorithm_trader import algo_trader
+from threading import Thread
+
 
 stage = 2
 
@@ -7,43 +10,12 @@ if stage == 1 :
     team_uid = layer.send_setup_request()
 
 if stage == 2 :
-    while True :
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0005',qty=10**6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0386', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0388', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='3988', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 6)
+    market_data_thread = Thread(target=get_market_data_running, args=(layer, ))
+    market_data_thread.start()
 
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0005', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0386', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0388', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='3988', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 6)
+    algo_trader = Thread(target= algo_trader, args = (layer, ))
+    algo_trader.start()
+    algo_trader.join()
 
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0005', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0386', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0388', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='3988', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 6)
-
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0005', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0386', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0388', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='3988', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0001', qty=10 ** 6)
-
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0005', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0386', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0388', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='3988', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0001', qty=10 ** 6)
-
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0005', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0386', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0388', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='3988', qty=10 ** 6)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0001', qty=10 ** 6)
-
-
-    # uid = ret['id']
-    # Exchange_layer.cancel_order(uid)
+if __name__ == "__main__":
+    print ("thread finished...exiting")
