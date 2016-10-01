@@ -28,7 +28,7 @@ class Exchange_layer():
     5. Read market data
     '''
 
-    team_id = 'ws78yF2sb6E-Vsw6w6qlEQ'
+    team_id = 'WZwWVXF2WdiWyLDbNxfYhA'
     exchange_url = {
         1 : 'http://cis2016-exchange1.herokuapp.com/api/',
         2 : 'http://cis2016-exchange2.herokuapp.com/api/',
@@ -59,14 +59,20 @@ class Exchange_layer():
 
     def send_setup_request(self):
         register_post_fields = {
-            "name": "CodeNinja__",
+            "name": "code_ninja",
             "members": ['Hammad Haleem', 'Vikram Sambamurty', 'Irtaza Khan']
         }
 
         url = "http://cis2016-teamtracker.herokuapp.com/api/teams/"
 
-        resp = self.send_generic_post_requests(url, register_post_fields)
+        jsondata = json.dumps(register_post_fields)
+        postreq = urllib2.Request(url, jsondata)
+        postreq.add_header('Content-Type', 'application/json')
+        resp = json.loads(urllib2.urlopen(postreq).read())
+
+        print(resp)
         team_id = str(resp['uid'])
+
         self.team_id = team_id
         print(self.team_id)
         return resp

@@ -2,7 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e9f239c6-ee89-4fb8-bcb0-4abd079eaa8c" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/algorithm_trader.py" afterPath="$PROJECT_DIR$/algorithm_trader.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange_layer.py" afterPath="$PROJECT_DIR$/exchange_layer.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <ignored path="credit-suisse-it.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -26,21 +29,20 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+            <state relative-caret-position="600">
+              <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
               <folding>
                 <element signature="e#0#75#0" expanded="true" />
-                <marker date="1475330123000" expanded="true" signature="185:793" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="exchange_layer.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="exchange_layer.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/exchange_layer.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="203">
-              <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
+            <state relative-caret-position="420">
+              <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -48,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="algorithm_trader.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="algorithm_trader.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/algorithm_trader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="93" column="58" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
+            <state relative-caret-position="3405">
+              <caret line="228" column="33" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -78,9 +80,9 @@
         <option value="$PROJECT_DIR$/main" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/RandomTests.py" />
-        <option value="$PROJECT_DIR$/exchange_layer.py" />
         <option value="$PROJECT_DIR$/main.py" />
         <option value="$PROJECT_DIR$/algorithm_trader.py" />
+        <option value="$PROJECT_DIR$/exchange_layer.py" />
       </list>
     </option>
   </component>
@@ -361,7 +363,6 @@
           <caret line="31" column="22" selection-start-line="31" selection-start-column="22" selection-end-line="31" selection-end-column="22" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
-            <marker date="1475330123000" expanded="true" signature="185:793" ph="..." />
           </folding>
         </state>
       </provider>
@@ -381,7 +382,6 @@
           <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
-            <marker date="1475330123000" expanded="true" signature="185:793" ph="..." />
           </folding>
         </state>
       </provider>
@@ -393,7 +393,6 @@
           <caret line="28" column="76" selection-start-line="28" selection-start-column="76" selection-end-line="28" selection-end-column="76" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
-            <marker date="1475330123000" expanded="true" signature="185:793" ph="..." />
           </folding>
         </state>
       </provider>
@@ -441,29 +440,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="0" selection-start-line="23" selection-start-column="0" selection-end-line="23" selection-end-column="0" />
+        <state relative-caret-position="600">
+          <caret line="40" column="35" selection-start-line="40" selection-start-column="35" selection-end-line="40" selection-end-column="35" />
           <folding>
             <element signature="e#0#75#0" expanded="true" />
-            <marker date="1475330123000" expanded="true" signature="185:793" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/exchange_layer.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="146" column="0" selection-start-line="146" selection-start-column="0" selection-end-line="146" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithm_trader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="93" column="58" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
+        <state relative-caret-position="3405">
+          <caret line="228" column="33" selection-start-line="228" selection-start-column="33" selection-end-line="228" selection-end-column="33" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/exchange_layer.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="30" column="37" selection-start-line="30" selection-start-column="37" selection-end-line="30" selection-end-column="37" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

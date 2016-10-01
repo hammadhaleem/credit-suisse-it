@@ -47,7 +47,7 @@ def trader_moving_avg(exchanges, symbol, layer):
                     final_ask = current_ask
                     ask_exchange = exchange
 
-        owned = team_information[u'' + str(to_int_symbol(symbol))]
+        owned = float(team_information[u'' + str(to_int_symbol(symbol))])
         trades = []
         if bid_exchange != -1:
             trades.append({
@@ -215,7 +215,6 @@ def algo_trader(layer, tradeFrequency):
         for th in threads:
             th.join()
 
-        sleep(tradeFrequency)
         count += 1
 
         if count % 10 == 1:
@@ -226,3 +225,5 @@ def algo_trader(layer, tradeFrequency):
                 stock_thread = Thread(target=trader_moving_avg, args=(exchanges, stock, layer))
                 stock_thread.start()
                 threads.append(stock_thread)
+
+            sleep(tradeFrequency)
