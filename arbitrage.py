@@ -1,0 +1,114 @@
+import datetime
+from threading import Thread
+from time import sleep
+from exchange_layer import df_from_sql, to_int_symbol, df_to_sql
+import pandas as pd
+
+
+def stock_trader_arbitrage(exchanges, symbol, layer):
+    team_information = layer.get_team_data()
+    share_have = team_information[str(to_int_symbol(symbol))]
+
+    sell_max_shares = 3000
+    max_sell_price = -99999999
+    global_exchange_sell = 1
+
+    min_buy_price = 99999999999
+    global_exchange_buy = 1
+    trades = []
+    for exchange in exchanges:
+
+        price = layer.get_market_data(exchange_id=exchange, stock_symbol=symbol)
+        current_bid = price['bid']
+        current_ask = price['ask']
+
+        if current_bid > max_sell_price:  # and current_ask > mean_ask:
+            max_sell_price = current_bid
+            global_exchange_sell = exchange
+
+        if current_ask < min_buy_price:  # and current_bid < mean_bid:
+            min_buy_price = current_ask
+            global_exchange_buy = exchange
+
+    stri = ""
+    if global_exchange_buy != global_exchange_sell and max_sell_price - min_buy_price > 0.1:
+        qty = 100  # int(sell_max_shares/ current_bid)
+        trades.append({
+            'exchange_id': int(global_exchange_buy),
+            'type': 'buy',
+            'symbol': to_int_symbol(symbol),
+            'qty': qty,
+            'price': min_buy_price,
+            'market': False
+        })
+
+        trades.append({
+            'exchange_id': int(global_exchange_sell),
+            'type': 'sell',
+            'symbol': to_int_symbol(symbol),
+            'qty': qty,
+            'price': max_sell_price,
+            'market': False
+        })
+
+        try:
+            trade_list = []
+
+            share_have = float(team_information[str(to_int_symbol(symbol))])
+            for trade in trades:
+                if trade['type'] == 'sell':
+                    trade['qty'] = share_have+1
+                if trade['type'] == 'buy' and qty + share_have < sell_max_shares:
+                    trade['qty'] = qty+1
+
+                if True:
+                    if not trade['market']:
+                        td = layer.buy_sell_limit(
+                            exchange_id=trade['exchange_id'],
+                            type=trade['type'],
+                            symbol=trade['symbol'],
+                            qty=trade['qty'],
+                            price=trade['price']
+                        )
+
+                    else:
+                        td = layer.buy_sell_market(
+                            exchange_id=trade['exchange_id'],
+                            type=trade['type'],
+                            symbol=trade['symbol'],
+                            qty=trade['qty']
+                        )
+
+
+
+                    try:
+                        json = str(td['status'])
+                    except:
+                        try:
+                            json = str(td['message'])
+                        except:
+                            print(td)
+                            json = None
+                            pass
+                        pass
+
+
+                    stri = stri + "   " + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price} {json}'''.format(
+                        exchange_id=trade['exchange_id'],
+                        type=trade['type'],
+                        symbol=trade['symbol'],
+                        qty=trade['qty'],
+                        price=trade['price'],
+                        json=json
+                    )
+
+                    trade['json'] = str(td)
+                    trade['time'] = datetime.datetime.now()
+
+                    trade_list.append(trade)
+            df_to_sql(pd.DataFrame(trade_list), 'ledger')
+            print(stri)
+        except Exception as e:
+            print("Runtime ", e)
+            pass
+

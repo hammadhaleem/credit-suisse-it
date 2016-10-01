@@ -50,16 +50,14 @@ class Exchange_layer():
             return None
         return resp
 
-
     def get_team_data(self):
         url = "http://cis2016-teamtracker.herokuapp.com/api/teams/" + self.team_id
         r = requests.get(url)
         return json.loads(r.content)
 
-
     def send_setup_request(self):
         register_post_fields = {
-            "name": "code_ninja",
+            "name": "nullptr",
             "members": ['Hammad Haleem', 'Vikram Sambamurty', 'Irtaza Khan']
         }
 
@@ -162,7 +160,7 @@ def df_from_sql(query, db='credit01'):  # xx
 
 
 def get_market_data_running(layer):
-    count = 0
+    count = 1
     while True:
         try:
             lis = []
