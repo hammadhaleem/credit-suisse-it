@@ -21,8 +21,10 @@ def trader_moving_avg(exchanges, symbol, layer):
     mean_bid = df[df.exchange == 1].bid.mean()
     mean_ask = df[df.exchange == 1].ask.mean()
 
-    final_bid = mean_bid
-    final_ask = mean_ask
+    avg_price  = (mean_ask + mean_bid)/ 2
+
+    final_bid = avg_price
+    final_ask = avg_price
 
     bid_exchange = -1
     ask_exchange = -1
@@ -33,16 +35,18 @@ def trader_moving_avg(exchanges, symbol, layer):
             mean_bid = df[df.exchange == int(exchange)].bid.mean()
             mean_ask = df[df.exchange == int(exchange)].ask.mean()
 
+            avg_price = (mean_ask + mean_bid) / 2
+
             price = layer.get_market_data(exchange_id=exchange, stock_symbol=symbol)
             # print(price,team_information[u'cash'])
             current_bid = price['bid']
             current_ask = price['ask']
-            if mean_bid < current_bid:
+            if avg_price < current_bid:
                 if current_bid > final_bid:
                     final_bid = current_bid
                     bid_exchange = exchange
 
-            if mean_ask > current_ask:
+            if avg_price > current_ask:
                 if current_ask < final_ask:
                     final_ask = current_ask
                     ask_exchange = exchange

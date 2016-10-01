@@ -15,17 +15,17 @@ try:
         print("Err", e)
         pass  # team exist
 
-    order = layer.buy_sell_market(1, 'buy', '0001', 10)
+    order = layer.buy_sell_market(1, 'buy', '0005', 10)
     print(order)
-    order = layer.buy_sell_market(1, 'sell', '0001', 5)
+    order = layer.buy_sell_market(1, 'sell', '0005', 5)
 
     print(order)
-    order = layer.buy_sell_limit(1, 'buy', '0001', 1, 1)
+    order = layer.buy_sell_limit(1, 'buy', '0005', 5, 1)
 
     print(order)
     print(layer.cancel_order(uid=order['id'], exchange_id=1))
 
-    order = layer.buy_sell_limit(1, 'sell', '0001', 1, 1)
+    order = layer.buy_sell_limit(1, 'sell', '0005', 1, 1)
     print(order)
 
     stage += 1
