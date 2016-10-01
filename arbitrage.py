@@ -55,11 +55,16 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
             trade_list = []
 
             share_have = float(team_information[str(to_int_symbol(symbol))])
+
             for trade in trades:
                 if trade['type'] == 'sell':
-                    trade['qty'] = share_have+1
-                if trade['type'] == 'buy' and qty + share_have < sell_max_shares:
-                    trade['qty'] = qty+1
+                    if share_have == 0 :
+                        trade['qty'] = share_have+1
+                    else:
+                        trade['qty'] = share_have
+
+                if trade['type'] == 'buy' and qty + share_have > sell_max_shares:
+                    trade['qty'] = qty
 
                 if True:
                     if not trade['market']:
