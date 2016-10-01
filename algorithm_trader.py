@@ -17,24 +17,24 @@ def algo_trader(layer, tradeFrequency):
     exchanges = list(df_from_sql(exchanges).exchange.unique())
 
     print("Exchanges  : {exchange}".format(exchange=",".join(exchanges)))
-    print("Symbol  : {symbols}".format(symbols=",".join(exchanges)))
+    print("Symbol  : {symbols}".format(symbols=",".join(symbols)))
 
     count = 1
     while True:
         threads = []
-        for stock in symbols:
-            stock_thread = Thread(target=stock_trader_arbitrage, args=(exchanges, stock, layer))
-            stock_thread.start()
-            threads.append(stock_thread)
-            pass
-
-        # join all the threads
-        for th in threads:
-            th.join()
+        # for stock in symbols:
+        #     stock_thread = Thread(target=stock_trader_arbitrage, args=(exchanges, stock, layer))
+        #     stock_thread.start()
+        #     threads.append(stock_thread)
+        #     pass
+        #
+        # # join all the threads
+        # for th in threads:
+        #     th.join()
 
         count += 1
 
-        if count % 20 == 0:
+        if count % 10 == 0:
 
             for stock in symbols:
                 stock_thread = Thread(target=trader_moving_avg, args=(exchanges, stock, layer))
