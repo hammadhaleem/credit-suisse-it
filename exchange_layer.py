@@ -1,3 +1,4 @@
+import datetime
 import json
 import urllib2
 
@@ -132,16 +133,13 @@ def new_sql_engine(db):
 def df_to_sql(df, table='stock_price_data', db='credit01'):
     engine = new_sql_engine(db)
     df.to_sql(table, engine, if_exists='append', index=False)
-    print('Data saved in the table:{}'.format(table))
     return df
 
 
 def df_from_sql(query, db='credit01'):  # xx
-    print(query)
     engine = new_sql_engine(db)
     try:
         df = pd.read_sql_query(query, con=engine)
-        print(df.head())
         return df
     except Exception as e:
         print(e)
@@ -149,12 +147,17 @@ def df_from_sql(query, db='credit01'):  # xx
 
 
 def get_market_data_running(layer):
+    count = 0
     while True:
         lis = []
-        print("get_exchange_data")
         lis.extend(layer.get_market_data(exchange_id=1))
         lis.extend(layer.get_market_data(exchange_id=2))
         lis.extend(layer.get_market_data(exchange_id=3))
         df = pd.DataFrame(lis)
         df_to_sql(df)
-        print(df.head())
+        if count % 100 == 0:
+            print("[Info]Market data: ")
+            print(df.head())
+        else:
+            sleep(0.1)
+        count += 1

@@ -1,41 +1,25 @@
+from time import sleep
 
-def algo_trader(layer):
-    if True:
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0005', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0386', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0388', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='3988', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 3)
+from exchange_layer import df_from_sql
 
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0005', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0386', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0388', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='3988', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0001', qty=10 ** 3)
 
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0005', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0386', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0388', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='3988', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 3)
+def algo_trader(layer,tradeFrequency):
+    sleep(10)
+    while True:
+        query = "select * from stock_price_data order by time desc limit 5000;"
+        df = df_from_sql(query)
 
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0005', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0386', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0388', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='3988', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0001', qty=10 ** 3)
+        mask = ((df.exchange == '1') & (df.symbol =='0001'))
 
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0005', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0386', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0388', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='3988', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 3)
+        df = df[mask]
 
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0005', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0386', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0388', qty=10 ** 3)
-        # ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='3988', qty=10 ** 3)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='buy', symbol='0001', qty=10 ** 2)
-        ret = layer.test_buy_sell_market(exchange_id=1, type='sell', symbol='0001', qty=10 ** 2)
-        print("---",layer.get_market_data(exchange_id=1, stock_symbol='0001'))
+        print(df.describe())
+
+        print(
+            "[Trade] Exchange: {exchange_id} {stock_symbol}".format(
+                exchange_id=1,
+                stock_symbol='0001'
+            ),layer.get_market_data(exchange_id=1, stock_symbol='0001'))
+
+        sleep(tradeFrequency)
 

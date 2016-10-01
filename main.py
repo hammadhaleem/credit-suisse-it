@@ -13,7 +13,7 @@ if stage == 2 :
     market_data_thread = Thread(target=get_market_data_running, args=(layer, ))
     market_data_thread.start()
 
-    algo_trader = Thread(target= algo_trader, args = (layer, ))
+    algo_trader = Thread(target= algo_trader, args = (layer,2 ))
     algo_trader.start()
     algo_trader.join()
 
