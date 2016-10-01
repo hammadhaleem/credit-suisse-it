@@ -7,7 +7,6 @@ from sqlalchemy import create_engine
 from time import sleep
 
 db_conn_url = "postgres://credit01:credit01@credit01.cnxiijjshvio.ap-southeast-1.rds.amazonaws.com:5432/credit01"
-
 sql_engine = {}
 
 
@@ -20,13 +19,13 @@ class Exchange_layer():
     5. Read market data
     '''
 
+    team_id = 'sYFDHpA1uLkKq6z3QwnCyg'
     exchange_url = {
-        1: 'http://cis2016-exchange1.herokuapp.com/api/',
-        2: 'http://cis2016-exchange2.herokuapp.com/api/',
-        3: 'http://cis2016-exchange3.herokuapp.com/api/'
+        '1' : 'http://cis2016-exchange1.herokuapp.com/api/',
+        '2' : 'http://cis2016-exchange2.herokuapp.com/api/',
+        '3' : 'http://cis2016-exchange3.herokuapp.com/api/'
     }
 
-    team_id = 'sYFDHpA1uLkKq6z3QwnCyg'
 
     def send_generic_post_requests(self, url, data = None):
         try:
@@ -41,10 +40,8 @@ class Exchange_layer():
                 resp = urllib2.urlopen(postreq).read()
             resp = json.loads(resp)
         except Exception as e:
-            print(e)
             return None
         return resp
-
 
     def send_setup_request(self):
         register_post_fields = {
@@ -64,9 +61,11 @@ class Exchange_layer():
     def get_market_data(self, exchange_id, stock_symbol = None):
         data_url = "{exchange_url}/market_data".format(exchange_url=self.exchange_url[exchange_id])
         resp = self.send_generic_post_requests(data_url)
-        resp_list= []
+        resp_list = []
         for elem in resp:
-            elem['exchange'] = exchange_id
+            elem['exchange'] = "ex_"+ str(exchange_id)
+            elem['symbol'] = 'sy_' + str(elem['symbol'])
+
             resp_list.append(elem)
         resp = resp_list
         if stock_symbol is None:
@@ -77,8 +76,7 @@ class Exchange_layer():
                 return elem
         return None
 
-    def test_buy_sell_market(self, exchange_id, type, symbol, qty):
-
+    def buy_sell_market(self, exchange_id, type, symbol, qty):
         buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[exchange_id])
         data_buy_information = {
             "symbol": symbol,
@@ -89,20 +87,20 @@ class Exchange_layer():
         }
 
         resp = self.send_generic_post_requests(buy_url, data_buy_information)
-        print(resp)
         return resp
 
-    def test_buy_sell_limit(self, exchange_id, type, symbol, qty, price):
+    def buy_sell_limit(self, exchange_id, type, symbol, qty, price):
         buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[exchange_id])
         data_buy_information = {
             "symbol": symbol,
             'side': type,
             'qty': qty,
-            "team_uid": self.team_id ,
+            "team_uid": self.team_id,
             'order_type': 'limit',
             'price': price
         }
 
+        print(data_buy_information)
         resp = self.send_generic_post_requests(buy_url, data_buy_information)
         return resp
 
@@ -110,7 +108,7 @@ class Exchange_layer():
         order_url = "{exchange_url}orders/{uid}?next_stage".format(exchange_url=self.exchange_url[exchange_id],uid=uid)
 
         data_buy_information = {
-            "team_uid": self.team_id ,
+            "team_uid": self.team_id,
             'id': uid
         }
 
@@ -148,11 +146,11 @@ def df_from_sql(query, db='credit01'):  # xx
 
 def get_market_data_running(layer):
     count = 0
-    while True:
+    if True:
         lis = []
-        lis.extend(layer.get_market_data(exchange_id=1))
-        lis.extend(layer.get_market_data(exchange_id=2))
-        lis.extend(layer.get_market_data(exchange_id=3))
+        lis.extend(layer.get_market_data(exchange_id='1'))
+        lis.extend(layer.get_market_data(exchange_id='2'))
+        lis.extend(layer.get_market_data(exchange_id='3'))
         df = pd.DataFrame(lis)
         df_to_sql(df)
         if count % 100 == 0:
