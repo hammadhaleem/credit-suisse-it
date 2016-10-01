@@ -40,7 +40,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
         if current_bid < min_buy_price: # and current_bid < mean_bid:
             min_buy_price = current_bid
             global_exchange_buy = exchange
-
+    stri = ""
     if global_exchange_buy != global_exchange_sell and max_sell_price - min_buy_price > 0.1:
             qty = sell_max_shares #int(sell_max_shares/ current_bid)
             trades.append({
@@ -95,7 +95,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
 
                     trade_list.append(trade)
                 df_to_sql(pd.DataFrame(trade_list),'ledger')
-                print(stri)
+                print("\n",stri)
             except Exception as e:
                 print("Runtime ",e)
                 pass
