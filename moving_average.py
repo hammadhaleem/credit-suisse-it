@@ -4,13 +4,14 @@ from time import sleep
 from exchange_layer import df_from_sql, to_int_symbol, df_to_sql
 import pandas as pd
 
+
 def trader_moving_avg(exchanges, symbol, layer):
     query = '''
             select *
             from
                 stock_price_data where symbol = '{symbol_traded}'
             order by time desc
-            limit 10000;
+            limit 500;
         '''.format(symbol_traded=symbol)
 
     df = df_from_sql(query)
