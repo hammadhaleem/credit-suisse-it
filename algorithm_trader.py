@@ -1,14 +1,9 @@
 from threading import Thread
 from time import sleep
-from exchange_layer import df_from_sql
-
-
-def to_int_symbol(symbol):
-    return str(symbol.split("_")[1])
-
+from exchange_layer import df_from_sql, sell_max_shares, to_int_symbol, df_to_sql
+import pandas as pd
 
 def stock_trader(exchanges, symbol, layer):
-
     query = '''
             select *
             from
@@ -19,44 +14,61 @@ def stock_trader(exchanges, symbol, layer):
 
     df = df_from_sql(query)
 
+    max_sell_price = -99999999
+    global_exchange_sell = 1
+
+    min_buy_price = 99999999999
+    global_exchange_buy = 1
+
+    trades = []
     for exchange in exchanges:
         mask = ((df.exchange == exchange) & (df.symbol == symbol))
         df_for_exchange = df[mask]
-        last_time = df_for_exchange.time.max()
 
         mean_bid = df_for_exchange.bid.mean()
         mean_ask = df_for_exchange.bid.mean()
 
-        last_price_mask = (df.time == last_time)
-        last_row = df_for_exchange[last_price_mask]
+        price = layer.get_market_data(exchange_id=exchange,stock_symbol=symbol)
+        current_bid = price['bid']
+        current_ask = price['ask']
 
-        current_bid = last_row.iloc[0]['bid']
-        current_ask = last_row.iloc[0]['ask']
-        qty = 10 ** 3
-        if current_ask > mean_ask:
-            trade = layer.buy_sell_market(
-                exchange_id=to_int_symbol(exchange),
-                type='sell',
-                symbol=to_int_symbol(symbol),
-                qty= qty
+        if current_ask > max_sell_price and current_ask > mean_ask:
+            max_sell_price = current_ask
+            global_exchange_sell = exchange
+
+        if current_bid < min_buy_price and current_bid < mean_bid:
+            min_buy_price = current_bid
+            global_exchange_buy = exchange
+
+    if global_exchange_buy != global_exchange_sell and max_sell_price-min_buy_price > 0.5:
+            qty = sell_max_shares #int(sell_max_shares/ current_bid)
+            trades.append({
+                'exchange_id':global_exchange_buy,
+                'type':'buy',
+                'symbol':to_int_symbol(symbol),
+                'qty': qty
+            })
+
+            trades.append({
+                'exchange_id': global_exchange_buy,
+                'type': 'sell',
+                'symbol': to_int_symbol(symbol),
+                'qty': qty
+            })
+
+    try:
+        for trade in trades:
+            td = layer.buy_sell_market(
+                exchange_id=trade['exchange_id'],
+                type=trade['type'],
+                symbol=trade['symbol'],
+                qty=trade['qty']
             )
-
-            print('[Trade] Bought {symbol} at exchange {exchange} quantity {qty} Action Sell'.format(symbol=symbol,
-                                                                                                     exchange=exchange,
-                                                                                                     qty=qty))
-
-
-        if current_bid < mean_bid:
-            trade = layer.buy_sell_market(
-                exchange_id=to_int_symbol(exchange),
-                type='buy',
-                symbol=to_int_symbol(symbol),
-                qty= qty
-            )
-
-            print('[Trade] Bought {symbol} at exchange {exchange} quantity {qty} Action Sell'.format(symbol=symbol,
-                                                                                                     exchange=exchange,
-                                                                                                     qty=qty))
+            print(td, trade)
+        df_to_sql(pd.DataFrame(trades))
+    except Exception as e:
+        print(e)
+        pass
 
 
 def algo_trader(layer, tradeFrequency):
@@ -71,7 +83,7 @@ def algo_trader(layer, tradeFrequency):
     print("Exchanges  : {exchange}".format(exchange=",".join(exchanges)))
     print("Symbol  : {symbols}".format(symbols = ",".join(exchanges)))
 
-    if True:
+    while True:
         threads = []
         for stock in symbols :
             stock_thread = Thread(target=stock_trader, args=(exchanges, stock, layer))

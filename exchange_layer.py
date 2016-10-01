@@ -1,5 +1,7 @@
 import datetime
 import json
+
+import requests
 import urllib2
 
 import pandas as pd
@@ -8,6 +10,13 @@ from time import sleep
 
 db_conn_url = "postgres://credit01:credit01@credit01.cnxiijjshvio.ap-southeast-1.rds.amazonaws.com:5432/credit01"
 sql_engine = {}
+
+sell_max_shares = 10000
+minutes = 60
+
+
+def to_int_symbol(symbol):
+    return str(symbol.split("_")[1])
 
 
 class Exchange_layer():
@@ -19,43 +28,40 @@ class Exchange_layer():
     5. Read market data
     '''
 
-    team_id = 'sYFDHpA1uLkKq6z3QwnCyg'
+    team_id = 'ws78yF2sb6E-Vsw6w6qlEQ'
     exchange_url = {
-        '1' : 'http://cis2016-exchange1.herokuapp.com/api/',
-        '2' : 'http://cis2016-exchange2.herokuapp.com/api/',
-        '3' : 'http://cis2016-exchange3.herokuapp.com/api/'
+        1 : 'http://cis2016-exchange1.herokuapp.com/api/',
+        2 : 'http://cis2016-exchange2.herokuapp.com/api/',
+        3 : 'http://cis2016-exchange3.herokuapp.com/api/'
     }
-
 
     def send_generic_post_requests(self, url, data = None):
         try:
-            if data != None:
-                jsondata = json.dumps(data)
-                postreq = urllib2.Request(url, jsondata)
-                postreq.add_header('Content-Type', 'application/json')
-                resp = urllib2.urlopen(postreq).read()
+            if data is not None:
+                r = requests.post(url, data=data, allow_redirects=True)
+                return json.loads(r.content)
             else:
                 postreq = urllib2.Request(url)
                 postreq.add_header('Content-Type', 'application/json')
                 resp = urllib2.urlopen(postreq).read()
             resp = json.loads(resp)
         except Exception as e:
+            print("Exception ",e)
             return None
         return resp
 
     def send_setup_request(self):
         register_post_fields = {
-            "name": "codeNinja",
+            "name": "CodeNinja__",
             "members": ['Hammad Haleem', 'Vikram Sambamurty', 'Irtaza Khan']
         }
 
         url = "http://cis2016-teamtracker.herokuapp.com/api/teams/"
 
         resp = self.send_generic_post_requests(url, register_post_fields)
-        resp = json.loads(resp)
-        team_id = resp['uid']
+        team_id = str(resp['uid'])
         self.team_id = team_id
-        print(resp)
+        print(self.team_id)
         return resp
 
     def get_market_data(self, exchange_id, stock_symbol = None):
@@ -63,7 +69,7 @@ class Exchange_layer():
         resp = self.send_generic_post_requests(data_url)
         resp_list = []
         for elem in resp:
-            elem['exchange'] = "ex_"+ str(exchange_id)
+            elem['exchange'] = exchange_id
             elem['symbol'] = 'sy_' + str(elem['symbol'])
 
             resp_list.append(elem)
@@ -105,7 +111,7 @@ class Exchange_layer():
         return resp
 
     def cancel_order(self, uid, exchange_id):
-        order_url = "{exchange_url}orders/{uid}?next_stage".format(exchange_url=self.exchange_url[exchange_id],uid=uid)
+        order_url = "{exchange_url}orders/{uid}".format(exchange_url=self.exchange_url[exchange_id],uid=uid)
 
         data_buy_information = {
             "team_uid": self.team_id,
@@ -146,16 +152,18 @@ def df_from_sql(query, db='credit01'):  # xx
 
 def get_market_data_running(layer):
     count = 0
-    if True:
+    while True:
         lis = []
-        lis.extend(layer.get_market_data(exchange_id='1'))
-        lis.extend(layer.get_market_data(exchange_id='2'))
-        lis.extend(layer.get_market_data(exchange_id='3'))
+        for key in layer.exchange_url.keys():
+            lis.extend(layer.get_market_data(exchange_id=key))
+
         df = pd.DataFrame(lis)
+        print(df.head())
         df_to_sql(df)
         if count % 100 == 0:
             print("[Info]Market data: ")
             print(df.head())
         else:
             sleep(0.1)
+        print(df.head())
         count += 1
