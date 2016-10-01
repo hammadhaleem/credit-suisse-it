@@ -11,7 +11,7 @@ from time import sleep
 db_conn_url = "postgres://credit01:credit01@credit01.cnxiijjshvio.ap-southeast-1.rds.amazonaws.com:5432/credit01"
 sql_engine = {}
 
-sell_max_shares = 10000
+sell_max_shares = 100
 minutes = 60
 
 
@@ -46,7 +46,7 @@ class Exchange_layer():
                 resp = urllib2.urlopen(postreq).read()
             resp = json.loads(resp)
         except Exception as e:
-            print("Exception ",e)
+            print("Exception exec",e)
             return None
         return resp
 
@@ -65,7 +65,7 @@ class Exchange_layer():
         return resp
 
     def get_market_data(self, exchange_id, stock_symbol = None):
-        data_url = "{exchange_url}/market_data".format(exchange_url=self.exchange_url[exchange_id])
+        data_url = "{exchange_url}/market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
         resp = self.send_generic_post_requests(data_url)
         resp_list = []
         for elem in resp:
@@ -83,7 +83,7 @@ class Exchange_layer():
         return None
 
     def buy_sell_market(self, exchange_id, type, symbol, qty):
-        buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[exchange_id])
+        buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[int(exchange_id)])
         data_buy_information = {
             "symbol": symbol,
             'side': type,
@@ -96,7 +96,7 @@ class Exchange_layer():
         return resp
 
     def buy_sell_limit(self, exchange_id, type, symbol, qty, price):
-        buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[exchange_id])
+        buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[int(exchange_id)])
         data_buy_information = {
             "symbol": symbol,
             'side': type,
@@ -105,13 +105,11 @@ class Exchange_layer():
             'order_type': 'limit',
             'price': price
         }
-
-        print(data_buy_information)
         resp = self.send_generic_post_requests(buy_url, data_buy_information)
         return resp
 
     def cancel_order(self, uid, exchange_id):
-        order_url = "{exchange_url}orders/{uid}".format(exchange_url=self.exchange_url[exchange_id],uid=uid)
+        order_url = "{exchange_url}orders/{uid}".format(exchange_url=self.exchange_url[int(exchange_id)],uid=uid)
 
         data_buy_information = {
             "team_uid": self.team_id,
@@ -158,12 +156,10 @@ def get_market_data_running(layer):
             lis.extend(layer.get_market_data(exchange_id=key))
 
         df = pd.DataFrame(lis)
-        print(df.head())
         df_to_sql(df)
         if count % 100 == 0:
             print("[Info]Market data: ")
             print(df.head())
         else:
             sleep(0.1)
-        print(df.head())
         count += 1
