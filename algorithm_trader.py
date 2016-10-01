@@ -81,7 +81,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                             qty=trade['qty']
                         )
 
-                    stri = stri + "\n" + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price}'''.format(
+                    stri = stri + "   " + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price}'''.format(
                         exchange_id=trade['exchange_id'],
                         type=trade['type'],
                         symbol=trade['symbol'],
@@ -95,7 +95,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
 
                     trade_list.append(trade)
                 df_to_sql(pd.DataFrame(trade_list),'ledger')
-                print("\n",stri)
+                print(" ",stri)
             except Exception as e:
                 print("Runtime ",e)
                 pass
