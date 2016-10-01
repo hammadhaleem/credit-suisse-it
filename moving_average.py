@@ -52,7 +52,7 @@ def trader_moving_avg(exchanges, symbol, layer):
         if bid_exchange != -1:
             trades.append({
                 'exchange_id': int(bid_exchange),
-                'type': 'buy',
+                'type': 'sell',
                 'symbol': to_int_symbol(symbol),
                 'qty': int(owned) / 2,
                 'market': False,
@@ -64,7 +64,7 @@ def trader_moving_avg(exchanges, symbol, layer):
         if ask_exchange != -1:
             trades.append({
                 'exchange_id': int(ask_exchange),
-                'type': 'sell',
+                'type': 'buy',
                 'symbol': to_int_symbol(symbol),
                 'qty': owned,
                 'market': False,
