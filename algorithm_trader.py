@@ -13,14 +13,11 @@ def trader_machine_learning(exchanges, symbol, layer):
             order by time
             desc limit 1000;
         '''.format(symbol_traded=symbol)
-
-
     df = df_from_sql(query)
 
-
-
-
 def stock_trader_arbitrage(exchanges, symbol, layer):
+
+    sell_max_shares = 1000
     max_sell_price = -99999999
     global_exchange_sell = 1
 
@@ -33,13 +30,14 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
         current_bid = price['bid']
         current_ask = price['ask']
 
-        if current_ask > max_sell_price: # and current_ask > mean_ask:
-            max_sell_price = current_ask
+        if current_bid > max_sell_price: # and current_ask > mean_ask:
+            max_sell_price = current_bid
             global_exchange_sell = exchange
 
-        if current_bid < min_buy_price: # and current_bid < mean_bid:
-            min_buy_price = current_bid
+        if current_ask < min_buy_price: # and current_bid < mean_bid:
+            min_buy_price = current_ask
             global_exchange_buy = exchange
+
     stri = ""
     if global_exchange_buy != global_exchange_sell and max_sell_price - min_buy_price > 0.1:
             qty = sell_max_shares #int(sell_max_shares/ current_bid)
@@ -53,7 +51,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
             })
 
             trades.append({
-                'exchange_id': int(global_exchange_buy),
+                'exchange_id': int(global_exchange_sell),
                 'type': 'sell',
                 'symbol': to_int_symbol(symbol),
                 'qty': qty,
