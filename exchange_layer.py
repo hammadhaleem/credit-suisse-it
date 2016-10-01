@@ -41,14 +41,21 @@ class Exchange_layer():
                 r = requests.post(url, data=data, allow_redirects=True)
                 return json.loads(r.content)
             else:
-                postreq = urllib2.Request(url)
-                postreq.add_header('Content-Type', 'application/json')
-                resp = urllib2.urlopen(postreq).read()
-            resp = json.loads(resp)
+
+                r = requests.get(url, allow_redirects=True)
+                return json.loads(r.content)
+
         except Exception as e:
             print("Exception exec",e)
             return None
         return resp
+
+
+    def get_team_data(self):
+        url = "http://cis2016-teamtracker.herokuapp.com/api/teams/" + self.team_id
+        r = requests.get(url)
+        return json.loads(r.content)
+
 
     def send_setup_request(self):
         register_post_fields = {
@@ -151,15 +158,17 @@ def df_from_sql(query, db='credit01'):  # xx
 def get_market_data_running(layer):
     count = 0
     while True:
-        lis = []
-        for key in layer.exchange_url.keys():
-            lis.extend(layer.get_market_data(exchange_id=key))
+        try:
+            lis = []
+            for key in layer.exchange_url.keys():
+                sleep(0.01)
+                lis.extend(layer.get_market_data(exchange_id=key))
 
-        df = pd.DataFrame(lis)
-        df_to_sql(df)
-        if count % 100 == 0:
-            print("[Info]Market data: ")
-            print(df.head())
-        else:
-            sleep(0.1)
-        count += 1
+            df = pd.DataFrame(lis)
+            df_to_sql(df)
+            if count % 50 == 0:
+                print("[Info]Market data: ")
+                print(df.head())
+            count += 1
+        except Exception as e :
+            print("Error with getting market data")

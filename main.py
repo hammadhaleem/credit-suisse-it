@@ -39,7 +39,7 @@ except Exception as e:
 market_data_thread = Thread(target=get_market_data_running, args=(layer, ))
 market_data_thread.start()
 
-algo_trader = Thread(target= algo_trader, args = (layer, 0.5 * minutes ))
+algo_trader = Thread(target= algo_trader, args = (layer, 0.01 * minutes ))
 algo_trader.start()
 algo_trader.join()
 market_data_thread.join()
