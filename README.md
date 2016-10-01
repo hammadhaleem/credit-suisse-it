@@ -34,7 +34,7 @@ Remember, reach out to any of us identified by a blue line on our name badges if
 1. http://cis2016-teamtracker.herokuapp.com/api/teams/WQKW1pUQiKdCw7TIzBnWwg?next_stage
 2. http://cis2016-exchange1.herokuapp.com/api/market_data/0001
 3. http://cis2016-exchange1.herokuapp.com/api/orders?next_stage
-
+4. http://cis2016-teamtracker.herokuapp.com/summary/WQKW1pUQiKdCw7TIzBnWwg 
 
 "message": "team_uid can't be blank, side can't be blank, side is incorrect. Can only be 'buy' or 'sell', qty can't be blank, order_type can't be blank, order_type is incorrect. Can only be 'market' or 'limit'",
 
