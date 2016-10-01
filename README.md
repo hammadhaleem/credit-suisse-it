@@ -30,3 +30,15 @@ Remember, reach out to any of us identified by a blue line on our name badges if
 
 
 {"status":"Success. Team created. Please keep the following UID private, as this is used to identify your team in API requests.","uid":"WQKW1pUQiKdCw7TIzBnWwg"}
+
+1. http://cis2016-teamtracker.herokuapp.com/api/teams/WQKW1pUQiKdCw7TIzBnWwg?next_stage
+2. http://cis2016-exchange1.herokuapp.com/api/market_data/0001
+3. http://cis2016-exchange1.herokuapp.com/api/orders?next_stage
+
+
+"message": "team_uid can't be blank, side can't be blank, side is incorrect. Can only be 'buy' or 'sell', qty can't be blank, order_type can't be blank, order_type is incorrect. Can only be 'market' or 'limit'",
+
+
+{"id":"7155bed1-5273-477b-8512-a6593093b36c","team_uid":"WQKW1pUQiKdCw7TIzBnWwg","symbol":"0005","side":"buy","qty":1,"order_type":"market","price":null,"status":"FILLED","filled_qty":1}
+
+{"id":"2187c7bb-c4ce-4321-8e04-cdc8b7b3bb35","team_uid":"WQKW1pUQiKdCw7TIzBnWwg","symbol":"0005","side":"sell","qty":1,"order_type":"market","price":null,"status":"FILLED","filled_qty":1}
