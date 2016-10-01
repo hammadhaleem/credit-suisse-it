@@ -36,9 +36,9 @@ def algo_trader(layer, tradeFrequency):
 
         if count % 20 == 0:
 
-            # for stock in symbols:
-            #     stock_thread = Thread(target=trader_moving_avg, args=(exchanges, stock, layer))
-            #     stock_thread.start()
-            #     threads.append(stock_thread)
+            for stock in symbols:
+                stock_thread = Thread(target=trader_moving_avg, args=(exchanges, stock, layer))
+                stock_thread.start()
+                threads.append(stock_thread)
 
             sleep(tradeFrequency)
