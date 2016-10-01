@@ -27,3 +27,6 @@ Continue to complete the other stages by following the instructions provided whe
 If at any stage, you wish to view the next stage hint, append '?next_steps' to any of the endpoints you have gathered over time. Once you have all the endpoints collected, this will not need to be appended.
 On behalf of everyone here, we wish you the very best of luck!
 Remember, reach out to any of us identified by a blue line on our name badges if you encounter any problems or have any questions and we will try our best to help out where we can!
+
+
+{"status":"Success. Team created. Please keep the following UID private, as this is used to identify your team in API requests.","uid":"WQKW1pUQiKdCw7TIzBnWwg"}
