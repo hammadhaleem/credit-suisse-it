@@ -3,8 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="e9f239c6-ee89-4fb8-bcb0-4abd079eaa8c" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/algorithm_trader.py" afterPath="$PROJECT_DIR$/algorithm_trader.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/exchange_layer.py" afterPath="$PROJECT_DIR$/exchange_layer.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/main.py" afterPath="$PROJECT_DIR$/main.py" />
     </list>
     <ignored path="credit-suisse-it.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,8 +51,8 @@
       <file leaf-file-name="algorithm_trader.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/algorithm_trader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1939">
-              <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+            <state relative-caret-position="150">
+              <caret line="93" column="58" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -81,8 +79,8 @@
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/RandomTests.py" />
         <option value="$PROJECT_DIR$/exchange_layer.py" />
-        <option value="$PROJECT_DIR$/algorithm_trader.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/algorithm_trader.py" />
       </list>
     </option>
   </component>
@@ -464,8 +462,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/algorithm_trader.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1939">
-          <caret line="30" column="25" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+        <state relative-caret-position="150">
+          <caret line="93" column="58" selection-start-line="93" selection-start-column="58" selection-end-line="93" selection-end-column="58" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

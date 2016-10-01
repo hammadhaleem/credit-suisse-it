@@ -91,7 +91,7 @@ def trader_moving_avg(exchanges, symbol, layer):
                             qty=trade['qty']
                         )
 
-                    stri = stri + "   " + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price}'''.format(
+                    stri = stri + "   " + '''[Trade-Avg-moving] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price}'''.format(
                         exchange_id=trade['exchange_id'],
                         type=trade['type'],
                         symbol=trade['symbol'],
