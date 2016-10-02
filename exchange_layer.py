@@ -76,7 +76,11 @@ class Exchange_layer():
         return resp
 
     def get_market_data(self, exchange_id, stock_symbol = None):
-        data_url = "{exchange_url}market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
+        if stock_symbol is not None:
+            data_url = "{exchange_url}market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
+            data_url = data_url +"/" + to_int_symbol(stock_symbol) + "/"
+        else:
+            data_url = "{exchange_url}market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
 
         try:
             resp = self.send_generic_post_requests(data_url)
