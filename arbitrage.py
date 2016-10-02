@@ -54,7 +54,14 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
         try:
             trade_list = []
 
-            share_have = float(team_information[str(to_int_symbol(symbol))])
+
+            try:
+                key = u''+str(to_int_symbol(symbol))
+                # print(team_information, key)
+                share_have = float(team_information[key])
+            except Exception as e:
+                share_have = 0
+
 
             for trade in trades:
                 if trade['type'] == 'sell':
@@ -83,8 +90,6 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                             symbol=trade['symbol'],
                             qty=trade['qty']
                         )
-
-
 
                     try:
                         json = str(td['status'])
