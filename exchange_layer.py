@@ -28,7 +28,7 @@ class Exchange_layer():
     5. Read market data
     '''
 
-    team_id = 'NG1g4atpyH2uyyUQguxnhQ'
+    team_id = '6iM7O71xjWXkDt6MltAozw'
     exchange_url = {
         1 : 'http://cis2016-exchange1.herokuapp.com/api/',
         2 : 'http://cis2016-exchange2.herokuapp.com/api/',
@@ -171,7 +171,7 @@ def df_from_sql(query, db='credit01'):  # xx
         return None
 
 
-def get_market_data_running(layer,stocks):
+def get_market_data_running(layer):
     count = 1
     while True:
         try:
