@@ -38,7 +38,6 @@ try:
     print(order)
 
     sleep(2)
-
     stage += 1
 
     print("Completed Tests")
