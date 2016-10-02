@@ -127,7 +127,6 @@ def trader_moving_avg(exchanges, symbol, layer):
                     trade['json'] = str(td)
                     trade['time'] = datetime.datetime.now()
                     trade_list.append(trade)
-                    sleep(0.5)
 
                 df_to_sql(pd.DataFrame(trade_list), 'ledger')
                 print(" ", stri)

@@ -6,6 +6,7 @@ import pandas as pd
 
 
 def stock_trader_arbitrage(exchanges, symbol, layer):
+    
     team_information = layer.get_team_data()
     try:
         key = u'' + str(to_int_symbol(symbol))
@@ -122,7 +123,6 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                     trade_list.append(trade)
             df_to_sql(pd.DataFrame(trade_list), 'ledger')
             print(stri)
-            sleep(0.25)
         except Exception as e:
             print("Runtime ", e)
             pass
