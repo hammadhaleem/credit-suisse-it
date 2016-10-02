@@ -21,7 +21,6 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
     global_exchange_buy = 1
     trades = []
     for exchange in exchanges:
-
         try:
             price = layer.get_market_data(exchange_id=exchange, stock_symbol=symbol)
             current_bid = price['bid']

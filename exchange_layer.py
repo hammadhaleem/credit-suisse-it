@@ -46,7 +46,7 @@ class Exchange_layer():
                 return json.loads(r.content)
 
         except Exception as e:
-            print("Exception exec",e)
+            print("Exception exec",e, data, r.content , url)
             return None
         return resp
 
@@ -76,7 +76,7 @@ class Exchange_layer():
         return resp
 
     def get_market_data(self, exchange_id, stock_symbol = None):
-        data_url = "{exchange_url}/market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
+        data_url = "{exchange_url}market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
         try:
             resp = self.send_generic_post_requests(data_url)
         except:
