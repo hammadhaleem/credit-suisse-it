@@ -80,8 +80,9 @@ class Exchange_layer():
         try:
             resp = self.send_generic_post_requests(data_url)
         except:
-            print("API not responding")
+            print(resp, "API not responding")
             return None
+
         resp_list = []
         for elem in resp:
             elem['exchange'] = exchange_id
