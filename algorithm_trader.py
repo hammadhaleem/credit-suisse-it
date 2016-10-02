@@ -33,12 +33,11 @@ def algo_trader(layer, tradeFrequency):
             th.join()
 
         count += 1
-
         if count % 10 == 0:
 
             for stock in symbols:
                 stock_thread = Thread(target=trader_moving_avg, args=(exchanges, stock, layer))
                 stock_thread.start()
-                threads.append(stock_thread)
+                # threads.append(stock_thread)
 
-            sleep(tradeFrequency)
+            # sleep(tradeFrequency)

@@ -177,7 +177,7 @@ def get_market_data_running(layer):
         try:
             lis = []
             for key in layer.exchange_url.keys():
-                sleep(0.01)
+                sleep(1)
                 lis.extend(layer.get_market_data(exchange_id=key))
 
             df = pd.DataFrame(lis)

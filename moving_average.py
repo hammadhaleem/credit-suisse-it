@@ -6,6 +6,7 @@ import pandas as pd
 
 
 def trader_moving_avg(exchanges, symbol, layer):
+    sleep(60*3)
     query = '''
             select *
             from

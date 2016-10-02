@@ -28,7 +28,6 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
         except Exception as e:
             return None
 
-
         if current_bid > max_sell_price:  # and current_ask > mean_ask:
             max_sell_price = current_bid
             global_exchange_sell = exchange
@@ -46,7 +45,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
             'symbol': to_int_symbol(symbol),
             'qty': qty,
             'price': min_buy_price,
-            'market': False
+            'market': True
         })
 
         trades.append({
@@ -55,12 +54,11 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
             'symbol': to_int_symbol(symbol),
             'qty': qty,
             'price': max_sell_price,
-            'market': False
+            'market': True
         })
 
         try:
             trade_list = []
-
 
             try:
                 key = u''+str(to_int_symbol(symbol))
@@ -96,7 +94,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                             symbol=trade['symbol'],
                             qty=trade['qty']
                         )
-                    sleep(0.25)
+                    sleep(0.10)
                     try:
                         json = str(td['status'])
                     except:
@@ -124,6 +122,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                     trade_list.append(trade)
             df_to_sql(pd.DataFrame(trade_list), 'ledger')
             print(stri)
+            sleep(0.25)
         except Exception as e:
             print("Runtime ", e)
             pass
