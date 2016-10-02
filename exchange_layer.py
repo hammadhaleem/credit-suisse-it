@@ -28,7 +28,7 @@ class Exchange_layer():
     5. Read market data
     '''
 
-    team_id = 'WZwWVXF2WdiWyLDbNxfYhA'
+    team_id = 'NG1g4atpyH2uyyUQguxnhQ'
     exchange_url = {
         1 : 'http://cis2016-exchange1.herokuapp.com/api/',
         2 : 'http://cis2016-exchange2.herokuapp.com/api/',
@@ -57,7 +57,7 @@ class Exchange_layer():
 
     def send_setup_request(self):
         register_post_fields = {
-            "name": "nullptr",
+            "name": "CodeNinja",
             "members": ['Hammad Haleem', 'Vikram Sambamurty', 'Irtaza Khan']
         }
 

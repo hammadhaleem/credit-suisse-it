@@ -19,17 +19,25 @@ try:
 
     order = layer.buy_sell_market(1, 'buy', '0005', 10)
     print(order)
+    sleep(2)
 
     order = layer.buy_sell_market(1, 'sell', '0005', 5)
     print(order)
 
+    sleep(2)
+
     order = layer.buy_sell_limit(1, 'buy', '0005', 5, 1)
     print(order)
 
+    sleep(2)
+
     print(layer.cancel_order(uid=order['id'], exchange_id=1))
 
+    sleep(2)
     order = layer.buy_sell_limit(1, 'sell', '0005', 1, 1)
     print(order)
+
+    sleep(2)
 
     stage += 1
 
