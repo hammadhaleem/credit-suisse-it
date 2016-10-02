@@ -62,7 +62,6 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
             except Exception as e:
                 share_have = 0
 
-
             for trade in trades:
                 if trade['type'] == 'sell':
                     if share_have == 0 :
@@ -102,15 +101,15 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
                             pass
                         pass
 
-
-                    stri = stri + "   " + '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price} {json}'''.format(
-                        exchange_id=trade['exchange_id'],
-                        type=trade['type'],
-                        symbol=trade['symbol'],
-                        qty=trade['qty'],
-                        price=trade['price'],
-                        json=json
-                    )
+                    stri = "{0}   {1}".format(stri,
+                                              '''[Trade] exchange {exchange_id} {type} stock : {symbol} quantity {qty} price {price} {json}'''.format(
+                                                  exchange_id=trade['exchange_id'],
+                                                  type=trade['type'],
+                                                  symbol=trade['symbol'],
+                                                  qty=trade['qty'],
+                                                  price=trade['price'],
+                                                  json=json
+                                              ))
 
                     trade['json'] = str(td)
                     trade['time'] = datetime.datetime.now()

@@ -79,7 +79,13 @@ def trader_moving_avg(exchanges, symbol, layer):
             stri = ""
             try:
                 trade_list = []
-                share_have = float(team_information[str(to_int_symbol(symbol))])
+                try:
+                    key = u'' + str(to_int_symbol(symbol))
+                    # print(team_information, key)
+                    share_have = float(team_information[key])
+                except Exception as e:
+                    share_have = 0
+
                 for trade in trades:
                     if trade['type'] == 'sell':
                         trade['qty'] = share_have+1
