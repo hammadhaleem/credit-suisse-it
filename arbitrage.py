@@ -7,7 +7,11 @@ import pandas as pd
 
 def stock_trader_arbitrage(exchanges, symbol, layer):
     team_information = layer.get_team_data()
-    share_have = team_information[str(to_int_symbol(symbol))]
+    try:
+        key = u'' + str(to_int_symbol(symbol))
+        share_have = float(team_information[key])
+    except Exception as e:
+        share_have = 0
 
     sell_max_shares = 3000
     max_sell_price = -99999999
@@ -18,9 +22,13 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
     trades = []
     for exchange in exchanges:
 
-        price = layer.get_market_data(exchange_id=exchange, stock_symbol=symbol)
-        current_bid = price['bid']
-        current_ask = price['ask']
+        try:
+            price = layer.get_market_data(exchange_id=exchange, stock_symbol=symbol)
+            current_bid = price['bid']
+            current_ask = price['ask']
+        except Exception as e:
+            return None
+
 
         if current_bid > max_sell_price:  # and current_ask > mean_ask:
             max_sell_price = current_bid

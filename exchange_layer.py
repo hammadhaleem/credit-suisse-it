@@ -82,6 +82,9 @@ class Exchange_layer():
         except:
             print(resp, "API not responding")
             return None
+        if resp is None:
+            print(resp, "API not responding")
+            return None
 
         resp_list = []
         for elem in resp:
