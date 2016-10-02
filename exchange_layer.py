@@ -76,25 +76,25 @@ class Exchange_layer():
         return resp
 
     def get_market_data(self, exchange_id, stock_symbol = None):
+        data_url = "{exchange_url}/market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
         try:
-            data_url = "{exchange_url}/market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
             resp = self.send_generic_post_requests(data_url)
-            resp_list = []
-            for elem in resp:
-                elem['exchange'] = exchange_id
-                elem['symbol'] = 'sy_' + str(elem['symbol'])
-
-                resp_list.append(elem)
-            resp = resp_list
-            if stock_symbol is None:
-                return resp
-
-            for elem in resp:
-                if elem['symbol'] == stock_symbol:
-                    return elem
         except:
             print("API not responding")
             return None
+        resp_list = []
+        for elem in resp:
+            elem['exchange'] = exchange_id
+            elem['symbol'] = 'sy_' + str(elem['symbol'])
+            resp_list.append(elem)
+        resp = resp_list
+        if stock_symbol is None:
+            return resp
+
+        for elem in resp:
+            if elem['symbol'] == stock_symbol:
+                return elem
+
 
     def buy_sell_market(self, exchange_id, type, symbol, qty):
         buy_url = "{exchange_url}orders/".format(exchange_url=self.exchange_url[int(exchange_id)])
