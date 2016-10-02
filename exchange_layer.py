@@ -77,6 +77,7 @@ class Exchange_layer():
 
     def get_market_data(self, exchange_id, stock_symbol = None):
         data_url = "{exchange_url}market_data".format(exchange_url=self.exchange_url[int(exchange_id)])
+
         try:
             resp = self.send_generic_post_requests(data_url)
         except:
@@ -170,7 +171,7 @@ def df_from_sql(query, db='credit01'):  # xx
         return None
 
 
-def get_market_data_running(layer):
+def get_market_data_running(layer,stocks):
     count = 1
     while True:
         try:
