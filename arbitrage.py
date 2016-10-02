@@ -6,7 +6,7 @@ import pandas as pd
 
 
 def stock_trader_arbitrage(exchanges, symbol, layer):
-    
+
     team_information = layer.get_team_data()
     try:
         key = u'' + str(to_int_symbol(symbol))
