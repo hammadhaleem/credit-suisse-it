@@ -22,15 +22,15 @@ def algo_trader(layer, tradeFrequency):
     count = 1
     while True:
         threads = []
-        # for stock in symbols:
-        #     stock_thread = Thread(target=stock_trader_arbitrage, args=(exchanges, stock, layer))
-        #     stock_thread.start()
-        #     threads.append(stock_thread)
-        #     pass
-        #
-        # # join all the threads
-        # for th in threads:
-        #     th.join()
+        for stock in symbols:
+            stock_thread = Thread(target=stock_trader_arbitrage, args=(exchanges, stock, layer))
+            stock_thread.start()
+            threads.append(stock_thread)
+            pass
+
+        # join all the threads
+        for th in threads:
+            th.join()
 
         count += 1
 

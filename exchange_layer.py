@@ -126,14 +126,18 @@ class Exchange_layer():
             "team_uid": self.team_id,
             'id': uid
         }
+        try:
 
-        jsondata = json.dumps(data_buy_information)
-        postreq = urllib2.Request(order_url, jsondata)
-        postreq.get_method = lambda: 'DELETE'
+            jsondata = json.dumps(data_buy_information)
+            postreq = urllib2.Request(order_url, jsondata)
+            postreq.get_method = lambda: 'DELETE'
 
-        val = urllib2.urlopen(postreq).read()
-        print(val)
-        return val
+            val = urllib2.urlopen(postreq).read()
+            print(val)
+            return val
+        except:
+            pass
+            return None
 
 
 def new_sql_engine(db):

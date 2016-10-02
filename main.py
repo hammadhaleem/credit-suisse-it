@@ -1,3 +1,5 @@
+from time import sleep
+
 from exchange_layer import Exchange_layer, get_market_data_running, minutes
 from algorithm_trader import algo_trader
 from threading import Thread
@@ -17,12 +19,13 @@ try:
 
     order = layer.buy_sell_market(1, 'buy', '0005', 10)
     print(order)
+
     order = layer.buy_sell_market(1, 'sell', '0005', 5)
-
     print(order)
+
     order = layer.buy_sell_limit(1, 'buy', '0005', 5, 1)
-
     print(order)
+
     print(layer.cancel_order(uid=order['id'], exchange_id=1))
 
     order = layer.buy_sell_limit(1, 'sell', '0005', 1, 1)
@@ -38,6 +41,7 @@ except Exception as e:
 market_data_thread = Thread(target=get_market_data_running, args=(layer,))
 market_data_thread.start()
 
+sleep(30)
 algo_trader = Thread(target=algo_trader, args=(layer, 0.25 * minutes))
 algo_trader.start()
 
