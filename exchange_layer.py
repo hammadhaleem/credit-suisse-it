@@ -179,4 +179,4 @@ def get_market_data_running(layer):
                 print(df.head())
             count += 1
         except Exception as e :
-            print("Error with getting market data")
+            print("Error with getting market data",  e)
