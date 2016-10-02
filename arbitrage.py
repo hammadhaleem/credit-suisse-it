@@ -39,7 +39,7 @@ def stock_trader_arbitrage(exchanges, symbol, layer):
 
     stri = ""
     if global_exchange_buy != global_exchange_sell and max_sell_price - min_buy_price > 0.1:
-        qty = 500  # int(sell_max_shares/ current_bid)
+        qty = 100  # int(sell_max_shares/ current_bid)
         trades.append({
             'exchange_id': int(global_exchange_buy),
             'type': 'buy',
